@@ -11,6 +11,7 @@ next-env.d.ts
 
 # briefing material and internal working notes, not part of the product
 *.pdf
+*.docx
 /PLAN.md
 /DESIGN.md
 
