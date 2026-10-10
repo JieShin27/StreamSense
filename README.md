@@ -8,6 +8,8 @@
 
 *Built at Dormathon 2026 — Track 2: WorkBuddy, Agentic Solutions.*
 
+**🌐 Live deployment:** [streamsense-72ap.onrender.com](https://streamsense-72ap.onrender.com)
+
 ---
 
 ## 📖 Table of Contents
