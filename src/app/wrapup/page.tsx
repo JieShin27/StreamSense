@@ -7,16 +7,6 @@ import { act, useLiveState } from '@/components/useLiveState';
 import { salesSummary } from '@/lib/session';
 
 const rm = (n: number) => `RM${n.toFixed(2)}`;
-const PROMPT = `Live dah habis, settle everything.
-
-Get tonight's live with get_session and my cost sheet with get_uploaded_documents. Work as four roles:
-- Reconciliation: report the figures in the session's sales_summary (never recalculate): paid orders, revenue, fees, profit per product, stock left, and who still has items in their cart unpaid.
-- Restock: a purchase message to my supplier in Bahasa Malaysia for anything low or sold out.
-- Follow-up: one short chat message per buyer who left items unpaid or whose question was never answered, in the language they used.
-- Planner: the top questions for next live's FAQ, with a suggested answer where I already gave one.
-
-Finish by calling save_wrapup with the summary, the sales sheet, the restock message, the follow-ups and the FAQ.`;
-
 export default function WrapupPage() {
   const { state } = useLiveState();
   if (!state) return <main className="loading">Loading…</main>;
@@ -50,7 +40,6 @@ export default function WrapupPage() {
             kind="wrapup"
             button="Settle everything"
             roles="Reconciliation builds your sales sheet, Restock drafts the supplier message, Follow-up writes to buyers who left items behind, and Planner prepares next live’s FAQ."
-            manualPrompt={PROMPT}
             disabledReason={live ? 'End your live first.' : undefined}
           />
         </section>

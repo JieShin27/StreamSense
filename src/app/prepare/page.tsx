@@ -7,15 +7,6 @@ import { TeamRunPanel } from '@/components/TeamRunPanel';
 import { act, useLiveState } from '@/components/useLiveState';
 
 const rm = (n: number) => `RM${n.toFixed(2)}`;
-const PROMPT = `I'm going live tonight. My documents are uploaded in StreamSense. Prepare me.
-
-Read them with get_uploaded_documents and get my floor prices with get_price_floors (never recalculate them). Work as three roles:
-- Finance: explain each floor and how much room I have to discount.
-- Sales: a 30-minute run-of-show in Bahasa Malaysia with English and 中文 lines, and a one-page cue card.
-- Compliance: reject health claims, guarantees and unbacked halal claims; send each back to Sales until the script passes.
-
-Finish by calling save_prelive_pack with the products and floors, the script, the cue card and the compliance log.`;
-
 type Doc = 'script' | 'cue' | 'floors' | 'compliance';
 
 export default function PreparePage() {
@@ -82,7 +73,6 @@ export default function PreparePage() {
             kind="prepare"
             button="Prepare my live"
             roles="Finance works out your floor prices, Sales writes your script and cue card, and Compliance checks every line. They hand the results back here."
-            manualPrompt={PROMPT}
             disabledReason={uploads.length === 0 ? 'Upload at least your cost sheet first.' : undefined}
           />
         </section>

@@ -88,6 +88,22 @@ describe('teams running in the app', () => {
     });
   });
 
+  it('asks again when the model answers with nothing', async () => {
+    addUpload('cost_sheet.csv', SHEET);
+    const asked = fakeModel({
+      'You are Finance': ['- Kopi has room.'],
+      'Write a 30-minute': ['Script v1'],
+      'cue card': ['| Kopi | RM12.00 | RM24.00 |'],
+      'You are Compliance': ['', '', 'PASS'],
+    });
+    startTeam('prepare', 'http://app.test');
+    await finished();
+
+    expect(run()?.status).toBe('done');
+    expect(asked.filter((r) => r === 'You are Compliance')).toHaveLength(3);
+    expect(getState().workspace.prep?.script).toBe('Script v1');
+  });
+
   it('saves nothing after the seller presses Stop', async () => {
     addUpload('cost_sheet.csv', SHEET);
     fakeModel({});

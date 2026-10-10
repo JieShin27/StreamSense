@@ -36,17 +36,22 @@ const alive = (run: Run) => {
   if (run.stopped) throw new Stopped();
 };
 
-/** One role's answer. A free model tier runs dry mid-team; the role waits for it instead of giving up. */
+/**
+ * One role's answer. A free model tier runs dry mid-team; the role waits for it
+ * instead of giving up. A model that answers with nothing is asked again, then
+ * the next model in the list is.
+ */
 async function ask(run: Run, system: string, input: string): Promise<string> {
-  for (let waits = 0; ; waits++) {
+  let empty = 0;
+  for (let waits = 0; ; ) {
     alive(run);
     try {
-      const text = await writeText(system, input);
+      const text = await writeText(system, input, empty);
       alive(run);
-      if (!text) throw new Error('The model returned an empty answer.');
-      return text;
+      if (text) return text;
+      if (++empty >= 4) throw new Error('The model returned an empty answer four times. Try again in a minute.');
     } catch (err) {
-      if (!(err instanceof RateLimited) || waits >= 8) throw err;
+      if (!(err instanceof RateLimited) || ++waits > 8) throw err;
       const wait = Math.min(Math.max((agentsRestingUntil() ?? 0) - Date.now(), 3000), 120_000);
       step('Team lead', `The model has reached its limit; continuing in ${Math.ceil(wait / 1000)} seconds.`);
       await sleep(wait);

@@ -91,7 +91,7 @@ Cost sheet columns — required: `sku, name, unit_cost, list_price, stock`. Opti
 
 **Without that engine** (a hosted copy), the same buttons run the same roles in the app itself (`src/lib/teams.ts`): each role is a call to the `LLM_*` model, in the same order, with Compliance sending rejected lines back to Sales up to twice. It needs `LLM_API_KEY` and nothing else. `TEAM_RUNNER=model` forces this on a laptop that has the engine.
 
-**From WorkBuddy's own window:** add `/api/mcp` as a custom connection (`{ "mcpServers": { "streamsense": { "url": "http://localhost:3000/api/mcp" } } }`) and paste the prompt shown under each button. This works against a hosted copy too: use its address, and add `"headers": { "Authorization": "Bearer <MCP_TOKEN>" }` with the token from the host's environment settings. The fold under each button shows the connection for the address the page is open at.
+**From WorkBuddy's own window:** add `/api/mcp` as a custom connection (`{ "mcpServers": { "streamsense": { "url": "http://localhost:3000/api/mcp" } } }`) and ask it to prepare or settle the live with the tools below. When `MCP_TOKEN` is set, the connection must send `Authorization: Bearer <MCP_TOKEN>`.
 
 | Tool | Effect |
 |---|---|
@@ -122,7 +122,7 @@ Notes for a hosted copy:
 
 ## 7. What is verified
 
-- 79 unit tests; production build clean.
+- 80 unit tests; production build clean.
 - Thirty unscripted comments through the real model: 28 as expected, replies in about 1.6 s.
 - The test-kit shop (coffee, honey, cookies, tea) through the real agents: orders, two products in one comment, cancel, lowball offer, bulk order, unknown product, health claim, missing facts, spoken below-floor price, fact learned from speech.
 - Video from seller to a late-joining buyer, in a headless browser with a fake camera.

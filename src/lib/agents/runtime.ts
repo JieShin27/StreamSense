@@ -63,9 +63,11 @@ export function clearCooling(): void {
   cooling.clear();
 }
 
-async function chat(messages: WireMessage[], tools: Tool[], timeoutMs = Number(process.env.LLM_TIMEOUT_MS) || 8000): Promise<WireMessage> {
-  const available = models().filter((m) => (cooling.get(m) ?? 0) <= Date.now());
-  if (available.length === 0) throw new RateLimited('every model is rate-limited');
+async function chat(messages: WireMessage[], tools: Tool[], timeoutMs = Number(process.env.LLM_TIMEOUT_MS) || 8000, startAt = 0): Promise<WireMessage> {
+  const ready = models().filter((m) => (cooling.get(m) ?? 0) <= Date.now());
+  if (ready.length === 0) throw new RateLimited('every model is rate-limited');
+  // startAt moves down the list, so a second try is answered by a different model.
+  const available = [...ready.slice(startAt % ready.length), ...ready.slice(0, startAt % ready.length)];
 
   for (const model of available) {
     const res = await fetch(`${process.env.LLM_BASE_URL!.replace(/\/$/, '')}/chat/completions`, {
@@ -106,10 +108,10 @@ async function chat(messages: WireMessage[], tools: Tool[], timeoutMs = Number(p
 /**
  * One written answer, no tools: for the before/after teams, whose work is
  * documents. Writing a page takes longer than reading a comment, so it gets
- * its own time limit.
+ * its own time limit. `attempt` picks which model in the list answers first.
  */
-export async function writeText(system: string, user: string): Promise<string> {
-  const reply = await chat([{ role: 'system', content: system }, { role: 'user', content: user }], [], 90_000);
+export async function writeText(system: string, user: string, attempt = 0): Promise<string> {
+  const reply = await chat([{ role: 'system', content: system }, { role: 'user', content: user }], [], 90_000, attempt);
   return (reply.content ?? '').trim();
 }
 
