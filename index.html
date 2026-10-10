@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>StreamSense — The AI Live-Selling Operations Team for Solo Sellers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#111827;line-height:1.7;overflow-x:hidden}
+a{text-decoration:none;color:inherit}ul{list-style:none}img{max-width:100%;display:block}
+:root{
+--pri:#1D4ED8;--pri-l:#3B82F6;--pri-d:#1E3A8A;--pri-bg:#EFF6FF;
+--acc:#BE185D;--acc-l:#EC4899;--acc-bg:#FDF2F8;
+--suc:#15803D;--suc-l:#22C55E;--suc-bg:#F0FDF4;
+--lime:#65A30D;--lime-bg:#F7FEE7;
+--amber:#B45309;--amber-bg:#FFFBEB;
+--red:#B91C1C;--red-bg:#FEF2F2;
+--cream:#FFFFFF;--warm:#FFFFFF;
+--ink:#111827;--ink2:#1F2937;--slate:#374151;--slate-l:#D1D5DB;--slate-ll:#F3F4F6;--slate-bg:#F9FAFB;
+--white:#FFF;
+--fh:'Inter',system-ui,-apple-system,sans-serif;
+--fb:'Inter',system-ui,-apple-system,sans-serif;
+--fs:'Inter',system-ui,-apple-system,sans-serif;
+--sh-sm:0 1px 3px rgba(0,0,0,.08);--sh-md:0 4px 12px rgba(0,0,0,.1);--sh-lg:0 12px 40px rgba(0,0,0,.12);
+--r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:24px;
+}
+h1,h2,h3,h4{font-family:var(--fh);line-height:1.15;letter-spacing:-.02em}
+
+/* Solid accent text for headings */
+.grad-txt{color:var(--pri)}
+.grad-txt-suc{color:var(--suc)}
+
+/* Progress bar */
+.pbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pri),var(--acc),var(--suc));z-index:9999;transition:width .1s}
+
+/* Top bar */
+.tbar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;z-index:200;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--slate-ll);transition:box-shadow .3s}
+.tbar.scrolled{box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.logo{font-family:var(--fh);font-size:1.25rem;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:.4rem}
+.logo .dot{width:10px;height:10px;background:var(--pri);border-radius:3px}
+.logo .accent{color:var(--pri)}
+.tbadge{font-family:var(--fh);font-size:.8rem;font-weight:600;color:var(--slate);background:var(--slate-ll);border:1px solid var(--slate-l);padding:.4rem .8rem;border-radius:8px;display:flex;align-items:center;gap:.4rem}
+.tbadge .d{width:8px;height:8px;background:var(--suc);border-radius:50%}
+
+/* Bottom nav — pill */
+.hnav{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);display:flex;gap:.2rem;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--slate-l);border-radius:10px;padding:.35rem .4rem;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.1);max-width:calc(100vw - 2rem);overflow-x:auto;scrollbar-width:none}
+.hnav::-webkit-scrollbar{display:none}
+.hnav a{flex:0 0 auto;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.8rem;font-weight:600;color:var(--slate);transition:all .3s}
+.hnav a.active{background:var(--pri);color:var(--white)}
+
+/* Layout */
+.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+.section{padding:4rem 0;position:relative;overflow:hidden}
+.section.pri-bg{background:var(--pri-bg)}
+.section.acc-bg{background:var(--acc-bg)}
+.section.suc-bg{background:var(--suc-bg)}
+.section.dark{background:var(--ink);color:var(--white)}
+.section.cream{background:var(--white)}
+
+/* Section header — clean and professional */
+.sh{display:flex;align-items:flex-start;gap:1.25rem;margin-bottom:2.5rem;position:relative}
+.sh-num{font-family:var(--fh);font-size:clamp(2.5rem,5vw,3rem);font-weight:900;line-height:.85;min-width:3.5rem;color:var(--pri)}
+.sh-text{flex:1}
+.sh-label{font-family:var(--fh);font-size:.85rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--pri);margin-bottom:.5rem}
+.sh-title{font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:800;color:var(--ink);margin-bottom:.5rem;letter-spacing:-.02em}
+.sh-sub{font-size:clamp(1rem,1.5vw,1.15rem);color:var(--slate);font-weight:400;max-width:720px}
+
+/* Card */
+.card{background:var(--white);border:1.5px solid var(--slate-ll);border-radius:var(--r-md);padding:1.75rem;transition:all .3s;position:relative}
+.card:hover{border-color:var(--pri-l);box-shadow:var(--sh-md);transform:translateY(-2px)}
+.card.acc-l{border-left:5px solid var(--acc)}
+.card.pri-l{border-left:5px solid var(--pri)}
+.card.suc-l{border-left:5px solid var(--suc)}
+.card.amber-l{border-left:5px solid var(--amber)}
+.card.red-l{border-left:5px solid var(--red)}
+
+/* Grid */
+.grid{display:grid;gap:1.5rem}
+.g-2{grid-template-columns:repeat(2,1fr)}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-4{grid-template-columns:repeat(4,1fr)}
+.g-asym{grid-template-columns:1.4fr 1fr 1fr}
+@media(max-width:900px){.g-2,.g-3,.g-4,.g-asym{grid-template-columns:1fr}}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--fh);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .7rem;border-radius:6px}
+.badge.pri{color:var(--pri);background:var(--pri-bg)}
+.badge.acc{color:var(--acc);background:var(--acc-bg)}
+.badge.suc{color:var(--suc);background:var(--suc-bg)}
+.badge.amber{color:var(--amber);background:var(--amber-bg)}
+.badge.red{color:var(--red);background:var(--red-bg)}
+.badge.dark{color:var(--white);background:var(--ink)}
+.badge.lime{color:#3F6212;background:var(--lime-bg)}
+
+/* Tag pill */
+.tag-pill{display:inline-block;font-family:var(--fh);font-size:.8rem;font-weight:600;padding:.25rem .6rem;border-radius:6px;border:1px solid}
+.tag-pill.pri{color:var(--pri);border-color:var(--pri-l);background:var(--pri-bg)}
+.tag-pill.acc{color:var(--acc);border-color:var(--acc-l);background:var(--acc-bg)}
+.tag-pill.suc{color:var(--suc);border-color:var(--suc-l);background:var(--suc-bg)}
+.tag-pill.dark{color:var(--white);border-color:var(--ink2);background:var(--ink2)}
+.tag-pill.gray{color:var(--slate);border-color:var(--slate-l);background:var(--slate-ll)}
+
+/* Phase header */
+.phase{font-family:var(--fh);font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.phase::after{content:'';flex:1;height:1px;background:var(--slate-ll)}
+
+/* Stat */
+.stat .num{font-family:var(--fh);font-size:clamp(2rem,4vw,2.5rem);font-weight:800;line-height:1;margin-bottom:.25rem}
+.stat .lbl{font-size:.95rem;color:var(--slate);font-weight:500}
+
+/* Comment bubble — chat style */
+.cmt{background:var(--slate-ll);border-radius:8px 8px 8px 2px;padding:.7rem 1rem;font-size:.95rem;margin-bottom:.6rem;position:relative;border-left:3px solid var(--slate-l)}
+.cmt .lang{font-family:var(--fh);font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--slate);margin-right:.5rem}
+
+/* Blockquote — professional */
+.pull-quote{font-size:clamp(1.15rem,2vw,1.4rem);line-height:1.5;font-weight:500;color:var(--ink);position:relative;padding:1.25rem 0 1.25rem 1.5rem;border-left:4px solid var(--pri)}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:.95rem}
+.tbl th{text-align:left;padding:.8rem 1rem;font-family:var(--fh);font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);border-bottom:2px solid var(--slate-l)}
+.tbl td{padding:.8rem 1rem;border-bottom:1px solid var(--slate-ll);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--slate-ll)}
+
+/* Flow */
+.flow{display:flex;align-items:stretch;gap:.6rem;flex-wrap:wrap}
+.flow-node{flex:1;min-width:180px;background:var(--white);border:1.5px solid var(--slate-ll);border-radius:var(--r-md);padding:1.25rem;position:relative;transition:all .3s}
+.flow-node:hover{border-color:var(--pri-l);transform:translateY(-2px);box-shadow:var(--sh-sm)}
+.flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--slate-l);font-size:1.5rem;font-family:var(--fh)}
+
+/* Price card */
+.price-card{background:var(--white);border:1.5px solid var(--slate-ll);border-radius:var(--r-md);padding:1.75rem;text-align:center;transition:all .3s}
+.price-card:hover{border-color:var(--pri-l);box-shadow:var(--sh-md);transform:translateY(-3px)}
+.price-card.featured{border:2px solid var(--pri);position:relative}
+.price-card .price-amt{font-family:var(--fh);font-size:2rem;font-weight:800}
+.price-card .price-per{font-size:.9rem;color:var(--slate)}
+
+/* Footer */
+.footer{background:var(--ink);color:var(--white);padding:3rem 0 5rem;text-align:center;position:relative;overflow:hidden}
+.footer .flogo{font-family:var(--fh);font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+.footer .ftag{color:var(--slate-l);font-size:1rem;margin-bottom:1rem}
+.footer .fmeta{font-size:.85rem;color:#9CA3AF}
+
+/* Text utils */
+.tc{text-align:center}
+.mb-sm{margin-bottom:.5rem}.mb-md{margin-bottom:1rem}.mb-lg{margin-bottom:1.5rem}
+.mt-sm{margin-top:.5rem}.mt-md{margin-top:1rem}.mt-lg{margin-top:1.5rem}
+.fs-sm{font-size:.95rem}.fs-md{font-size:1.05rem}.fs-lg{font-size:1.25rem}
+.fw-600{font-weight:600}.fw-700{font-weight:700}
+.c-pri{color:var(--pri)}.c-acc{color:var(--acc)}.c-suc{color:var(--suc)}.c-slate{color:var(--slate)}
+
+/* Numbered annotation */
+.annotate{position:relative;padding-left:2.5rem}
+.annotate::before{content:attr(data-n);position:absolute;left:0;top:0;width:1.75rem;height:1.75rem;border-radius:50%;border:2px solid var(--pri);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.85rem;font-weight:700;color:var(--pri)}
+
+/* Dark section text overrides */
+.section.dark .sh-title{color:var(--white)}
+.section.dark .sh-sub{color:#D1D5DB}
+.section.dark .card{background:var(--ink2);border-color:#374151;color:#D1D5DB}
+.section.dark .card:hover{border-color:var(--pri-l)}
+.section.dark .slate{color:#D1D5DB}
+.section.dark .c-slate{color:#D1D5DB}
+.section.dark .tbl th{color:#D1D5DB;border-color:#374151}
+.section.dark .tbl td{border-color:var(--ink2)}
+.section.dark .tbl tr:hover td{background:var(--ink2)}
+
+/* Animations */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes chat-scroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+.reveal{opacity:0;transform:translateY(28px);transition:all .6s cubic-bezier(.4,0,.2,1)}
+.reveal.show{opacity:1;transform:translateY(0)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--pri-bg)}
+.hcontent{position:relative;z-index:2;text-align:center;max-width:860px;padding:0 2rem}
+.hbadge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fh);font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);background:var(--white);border:1px solid var(--slate-l);padding:.4rem 1rem;border-radius:8px;box-shadow:var(--sh-sm);margin-bottom:1.5rem}
+.hbadge .d{width:8px;height:8px;background:var(--red);border-radius:50%}
+.hteam{font-size:1.15rem;font-weight:500;color:var(--slate);margin-bottom:.5rem}
+.htitle{font-size:clamp(3.5rem,9vw,6rem);font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:.75rem}
+.htitle .accent{color:var(--pri)}
+.htitle .serif{font-weight:800;letter-spacing:-.02em}
+.htag{font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:600;color:var(--ink2);margin-bottom:1.25rem}
+.hsub{font-size:clamp(.95rem,1.5vw,1.1rem);color:var(--slate);max-width:580px;margin:0 auto;line-height:1.7}
+.hscroll{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);font-family:var(--fh);font-size:.75rem;font-weight:600;color:var(--slate);letter-spacing:.1em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.hscroll .arrow{width:2px;height:30px;background:var(--slate-l)}
+
+/* Live stream phone mockup in hero */
+.hphone{position:absolute;right:5%;top:50%;transform:translateY(-50%);display:none;z-index:1}
+@media(min-width:768px){.hphone{display:block;animation:float 5s ease-in-out infinite}}
+
+/* Phone frame */
+.phone{width:280px;height:560px;background:var(--ink);border-radius:38px;padding:8px;box-shadow:0 20px 60px rgba(0,0,0,.25),0 0 0 2px var(--ink2);position:relative}
+.phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:20px;background:var(--ink);border-radius:0 0 14px 14px;z-index:10}
+
+/* Screen */
+.screen{width:100%;height:100%;border-radius:32px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+
+/* Stream video area — REAL PHOTO */
+.stream{flex:1;position:relative;background:url('data:image/jpeg;base64,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') center top/cover no-repeat;overflow:hidden}
+.stream .glow{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,transparent 30%,transparent 70%,rgba(0,0,0,.4) 100%);pointer-events:none;z-index:1}
+.stream .seller-name{position:absolute;top:12%;left:12px;right:12px;font-family:var(--fh);font-size:.7rem;font-weight:600;color:var(--white);white-space:nowrap;z-index:3;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+
+/* Live badge + viewers */
+.stream-top{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.live-badge{display:inline-flex;align-items:center;gap:.25rem;background:var(--red);color:var(--white);font-family:var(--fh);font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .4rem;border-radius:4px}
+.live-badge .d{width:5px;height:5px;background:var(--white);border-radius:50%;animation:pulse 1.2s ease-in-out infinite}
+.viewer-count{display:inline-flex;align-items:center;gap:.2rem;background:rgba(0,0,0,.5);color:var(--white);font-family:var(--fh);font-size:.55rem;font-weight:600;padding:.2rem .4rem;border-radius:4px;backdrop-filter:blur(4px)}
+
+/* Product card overlay */
+.product-card{position:absolute;bottom:110px;left:10px;right:10px;background:rgba(255,255,255,.95);border-radius:10px;padding:.5rem .65rem;display:flex;align-items:center;gap:.5rem;box-shadow:0 2px 12px rgba(0,0,0,.15);z-index:5;backdrop-filter:blur(8px)}
+.product-card .pimg{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--acc),var(--pri));display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.product-card .pinfo{flex:1;min-width:0}
+.product-card .pname{font-family:var(--fh);font-size:.65rem;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-card .pprice{font-family:var(--fh);font-size:.7rem;font-weight:700;color:var(--red)}
+.product-card .pbtn{background:var(--pri);color:var(--white);font-family:var(--fh);font-size:.5rem;font-weight:700;text-transform:uppercase;padding:.2rem .45rem;border-radius:6px;flex-shrink:0}
+
+/* Chat stream area */
+.chat-stream{height:130px;overflow:hidden;position:relative;padding:.5rem .5rem 0;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.chat-track{display:flex;flex-direction:column;gap:.3rem;animation:chat-scroll 12s linear infinite}
+.chat-line{background:rgba(255,255,255,.12);backdrop-filter:blur(4px);border-radius:12px 12px 12px 2px;padding:.25rem .5rem;font-size:.58rem;color:rgba(255,255,255,.95);display:flex;align-items:center;gap:.3rem;max-width:90%}
+.chat-line .lang{font-family:var(--fh);font-size:.45rem;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0}
+.chat-line.reply{background:rgba(22,163,74,.3);border-left:2px solid var(--suc)}
+.chat-line.reply .ar{color:var(--suc);font-weight:600}
+.chat-line.esc{background:rgba(217,119,6,.3);border-left:2px solid var(--amber)}
+
+/* Bottom bar */
+.stream-bottom{height:38px;background:rgba(0,0,0,.8);display:flex;align-items:center;gap:.4rem;padding:0 .5rem}
+.stream-bottom .input{flex:1;background:rgba(255,255,255,.1);border-radius:14px;height:24px;display:flex;align-items:center;padding:0 .5rem;font-size:.55rem;color:rgba(255,255,255,.4)}
+.stream-bottom .send{width:24px;height:24px;background:var(--pri);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--white)}
+
+/* Chat animation */
+@keyframes chat-scroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+
+/* Second floating bubble set — keep for left side */
+.hchat2{position:absolute;left:6%;bottom:12%;display:none;z-index:1}
+@media(min-width:1024px){.hchat2{display:block;animation:float 4s ease-in-out infinite .5s}}
+.hchat2 .b{background:var(--white);border:1px solid var(--slate-l);border-radius:14px 14px 14px 4px;padding:.45rem .7rem;font-size:.72rem;box-shadow:var(--sh-md);max-width:160px;margin-bottom:.35rem}
+.hchat2 .b .tag{font-family:var(--fh);font-size:.5rem;font-weight:600;text-transform:uppercase;color:var(--slate)}
+.hchat2 .b .arrow{color:var(--suc);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="pbar" id="pbar"></div>
+
+<div class="tbar" id="tbar">
+<div class="logo"><span class="dot"></span>Stream<span class="accent">Sense</span></div>
+<div class="tbadge"><span class="d"></span>Team Last Minute · Dormathon 2026</div>
+</div>
+
+<!-- ============ 01 HERO ============ -->
+<section class="hero" id="s1">
+<div class="hcontent reveal">
+<div class="hbadge"><span class="d"></span> Track 2 — WorkBuddy Agentic Solutions</div>
+<div class="hteam">Team Last Minute presents</div>
+<h1 class="htitle">Stream<span class="accent">Sense</span></h1>
+<p class="htag">The AI live-selling <strong>operations team</strong> for solo sellers</p>
+<p class="hsub">One person shouldn't be host, customer service, cashier, stock-keeper, and marketer — all at the same time. We deploy 11 autonomous agents across three phases so the seller can just sell.</p>
+</div>
+<div class="hscroll reveal">Scroll<div class="arrow"></div></div>
+</section>
+
+<!-- ============ 02 PROBLEM ============ -->
+<section class="section cream" id="s2">
+<div class="container">
+<div class="sh">
+<div class="sh-num">01</div>
+<div class="sh-text">
+<div class="sh-label">The Core Problem</div>
+<h2 class="sh-title">One seller. <span class="grad-txt">Five hats.</span></h2>
+<p class="sh-sub">A solo live seller in Malaysia must simultaneously juggle five roles — and drops at least four of them during a live session.</p>
+</div>
+</div>
+<div class="grid g-asym reveal">
+<div class="card red-l" style="grid-row:span 2;display:flex;flex-direction:column;justify-content:center;background:var(--red-bg);border-color:var(--red)">
+<div class="badge red mb-md">THE REALITY</div>
+<h3 class="fw-700 fs-lg mb-md" style="font-size:1.6rem">No human can do five things simultaneously for 4 hours.</h3>
+<p class="fs-sm c-slate" style="line-height:1.8">Something always breaks. And it's usually the sales. A seller mid-pitch can't stop to check if size M is still in stock — so she guesses. Sometimes she's right. Often she's not. Every wrong guess is a bad review, a cancellation, or a lost customer who never comes back.</p>
+<div style="margin-top:1.5rem;padding:1rem;background:var(--white);border-radius:var(--r-sm);border:1px solid var(--red)">
+<p style="font-size:1.15rem;font-weight:600;color:var(--red);line-height:1.4">"I lost a RM150 order because I promised blue was in stock. It wasn't."</p>
+<p style="font-size:.9rem;color:var(--slate);margin-top:.4rem">— solo seller, Petaling Jaya</p>
+</div>
+</div>
+<div class="card red-l">
+<div class="badge red mb-sm">DURING LIVE</div>
+<h3 class="fw-700 fs-md mb-sm">Host</h3>
+<p class="fs-sm c-slate">Pitching on camera for 2–4 hours straight. Cannot stop to check stock or reply to buyers.</p>
+</div>
+<div class="card red-l">
+<div class="badge red mb-sm">DURING LIVE</div>
+<h3 class="fw-700 fs-md mb-sm">Customer Service</h3>
+<p class="fs-sm c-slate">Buyers flood the chat. Each unanswered comment is a lost sale.</p>
+</div>
+<div class="card amber-l">
+<div class="badge amber mb-sm">PRE-LIVE</div>
+<h3 class="fw-700 fs-md mb-sm">Cashier</h3>
+<p class="fs-sm c-slate">Confirming orders, collecting payment — while still on camera.</p>
+</div>
+<div class="card amber-l">
+<div class="badge amber mb-sm">PRE-LIVE</div>
+<h3 class="fw-700 fs-md mb-sm">Stock & Marketing</h3>
+<p class="fs-sm c-slate">Inventory sync across platforms + planning what to pitch. By hand.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 03 PAIN POINTS ============ -->
+<section class="section" id="s3">
+<div class="container">
+<div class="sh">
+<div class="sh-num">02</div>
+<div class="sh-text">
+<div class="sh-label">Pain Points</div>
+<h2 class="sh-title">Where the revenue <span class="grad-txt">leaks.</span></h2>
+<p class="sh-sub">Three phases of a live session. Each one bleeds money in a different way.</p>
+</div>
+</div>
+<div class="grid g-3 reveal">
+<div class="card amber-l">
+<div class="phase" style="color:var(--amber)">Before the Live</div>
+<h3 class="fw-700 fs-lg mb-sm">No Plan, No Stock</h3>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:1rem;color:var(--slate);line-height:1.9">
+<li>Guesses which products to feature — no data, no trend analysis</li>
+<li>Stock counts are manual and often wrong across platforms</li>
+<li>Starts the live with expired promotions or wrong prices</li>
+<li>Loses 15–20 minutes of peak viewership to setup chaos</li>
+</ul>
+</div>
+<div class="card red-l" style="background:var(--red-bg)">
+<div class="phase" style="color:var(--red)">During the Live</div>
+<h3 class="fw-700 fs-lg mb-sm">Chat Chaos</h3>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:1rem;color:var(--slate);line-height:1.9">
+<li>50+ comments per minute — impossible to read while hosting</li>
+<li>Buyer questions go unanswered for minutes or ignored entirely</li>
+<li>Stock oversells because manual counts can't keep up</li>
+<li>Promised discounts don't match what the platform charges</li>
+</ul>
+<div class="mt-md" style="padding-top:.75rem;border-top:1px dashed var(--red)">
+<p style="font-family:var(--fh);font-size:.85rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:.5rem">Real buyer comments, real languages:</p>
+<div class="cmt"><span class="lang">CN</span>多少钱？ <span class="c-slate" style="font-size:.95rem">(How much?)</span></div>
+<div class="cmt"><span class="lang">BM</span>Ada stok lagi? <span class="c-slate" style="font-size:.95rem">(Still in stock?)</span></div>
+<div class="cmt"><span class="lang">CN</span>nak 3 jar! <span class="c-slate" style="font-size:.95rem">(I want 3 jars!)</span></div>
+</div>
+</div>
+<div class="card pri-l" style="border-left:5px solid var(--pri)">
+<div class="phase" style="color:var(--pri)">After the Live</div>
+<h3 class="fw-700 fs-lg mb-sm">No Follow-Through</h3>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:1rem;color:var(--slate);line-height:1.9">
+<li>Orders sit unconfirmed — buyers lose interest and cancel</li>
+<li>Out-of-stock items discovered after promises were made</li>
+<li>Zero post-live analytics — no idea what worked or flopped</li>
+<li>Repeat buyers never get a follow-up message</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 04 MARKET CONTEXT ============ -->
+<section class="section pri-bg" id="s4">
+<div class="container">
+<div class="sh">
+<div class="sh-num">03</div>
+<div class="sh-text">
+<div class="sh-label">Market Context</div>
+<h2 class="sh-title">Live commerce is Malaysia's <span class="grad-txt">fastest-growing channel.</span></h2>
+<p class="sh-sub">The numbers are staggering — and solo sellers are getting left behind.</p>
+</div>
+</div>
+<div class="grid g-4 reveal">
+<div class="card pri-l tc">
+<div class="badge pri mb-sm">TIKTOK LIVE MY</div>
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--pri)">US$2.7B</div>
+<p class="fs-sm c-slate mt-sm">GMV in 2024</p>
+</div>
+<div class="card pri-l tc">
+<div class="badge pri mb-sm">SHOPEE MY</div>
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--pri)">US$7.2B</div>
+<p class="fs-sm c-slate mt-sm">GMV in 2024</p>
+</div>
+<div class="card acc-l tc">
+<div class="badge acc mb-sm">MSMEs</div>
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--acc)">97%</div>
+<p class="fs-sm c-slate mt-sm">of all Malaysian businesses</p>
+</div>
+<div class="card acc-l tc">
+<div class="badge acc mb-sm">GDP SHARE</div>
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--acc)">39.7%</div>
+<p class="fs-sm c-slate mt-sm">of national GDP</p>
+</div>
+</div>
+<div style="margin-top:2rem;padding:1.5rem 0;border-top:2px solid var(--slate-ll);border-bottom:2px solid var(--slate-ll)" class="reveal">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-around;gap:1.5rem;text-align:center">
+<div><strong style="font-size:1.15rem;color:var(--ink)">1.1M</strong> <span style="font-size:.95rem;color:var(--slate)">micro-businesses</span></div>
+<div><strong style="font-size:1.15rem;color:var(--ink)">50+</strong> <span style="font-size:.95rem;color:var(--slate)">comments per minute</span></div>
+<div><strong style="font-size:1.15rem;color:var(--ink)">3</strong> <span style="font-size:.95rem;color:var(--slate)">languages simultaneously</span></div>
+<div><strong style="font-size:1.15rem;color:var(--ink)">4 hrs</strong> <span style="font-size:.95rem;color:var(--slate)">live sessions</span></div>
+<div><strong style="font-size:1.15rem;color:var(--ink)">0</strong> <span style="font-size:.95rem;color:var(--slate)">ops support</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 05 MULTI-PLATFORM ============ -->
+<section class="section" id="s5">
+<div class="container">
+<div class="sh">
+<div class="sh-num">04</div>
+<div class="sh-text">
+<div class="sh-label">The Multi-Platform Reality</div>
+<h2 class="sh-title">Sellers don't pick one platform — <span class="grad-txt">they use all of them.</span></h2>
+<p class="sh-sub">Each platform has its own rules, its own stock system, its own comment format. Managing them simultaneously by hand is nearly impossible.</p>
+</div>
+</div>
+<div class="grid g-4 reveal">
+<div class="card pri-l tc">
+<div style="font-size:1.8rem;margin-bottom:.4rem">🎵</div>
+<h3 class="fw-700 fs-md mb-sm">TikTok Live</h3>
+<p class="fs-sm c-slate">Highest live traffic. Built-in checkout. But comment volume can hit 50+ per minute during peak.</p>
+<span class="tag-pill pri" style="display:inline-block;margin-top:.5rem">Primary</span>
+</div>
+<div class="card pri-l tc">
+<div style="font-size:1.8rem;margin-bottom:.4rem">🛒</div>
+<h3 class="fw-700 fs-md mb-sm">Shopee Live</h3>
+<p class="fs-sm c-slate">Largest Malaysian GMV. Separate stock pool. Promo vouchers must be applied manually.</p>
+<span class="tag-pill pri" style="display:inline-block;margin-top:.5rem">Primary</span>
+</div>
+<div class="card acc-l tc">
+<div style="font-size:1.8rem;margin-bottom:.4rem">📸</div>
+<h3 class="fw-700 fs-md mb-sm">Pinduoduo Live</h3>
+<p class="fs-sm c-slate">Private domain — DMs and comments. No built-in checkout. Orders confirmed manually.</p>
+<span class="tag-pill acc" style="display:inline-block;margin-top:.5rem">Secondary</span>
+</div>
+<div class="card acc-l tc">
+<div style="font-size:1.8rem;margin-bottom:.4rem">👥</div>
+<h3 class="fw-700 fs-md mb-sm">Facebook Live</h3>
+<p class="fs-sm c-slate">Older audience, group-based selling. Orders taken in comments, confirmed via DM.</p>
+<span class="tag-pill acc" style="display:inline-block;margin-top:.5rem">Secondary</span>
+</div>
+</div>
+<div class="mt-lg reveal">
+<div class="pull-quote">A seller might have 50 units total — 20 on TikTok, 20 on Shopee, 10 on Pinduoduo Live. When TikTok sells 18, the Shopee listing should drop to 2. But manual sync can't keep up. Result: oversells, cancellations, and 1-star reviews.</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 06 SOLUTION ============ -->
+<section class="section acc-bg" id="s6">
+<div class="container">
+<div class="sh">
+<div class="sh-num">05</div>
+<div class="sh-text">
+<div class="sh-label">The StreamSense Solution</div>
+<h2 class="sh-title">Three agent teams. <span class="grad-txt">One seamless operation.</span></h2>
+<p class="sh-sub">11 autonomous agents deployed across Before, During, and After the live session — each with a specific job, coordinated by a deterministic rule engine.</p>
+</div>
+</div>
+<div class="grid g-3 reveal">
+<div class="card pri-l" style="border-top:3px solid var(--pri)">
+<div class="phase" style="color:var(--pri)">Phase 1 — Before the Live</div>
+<h3 class="fw-700 fs-lg mb-sm">Pre-Live Planning Team</h3>
+<p class="fs-sm c-slate mb-md">Gets the seller ready: stock synced, promotions live, products selected, compliance checked.</p>
+<div style="display:flex;flex-wrap:wrap;gap:.4rem">
+<span class="tag-pill pri">Finance Agent</span>
+<span class="tag-pill pri">Sales Agent</span>
+<span class="tag-pill pri">Compliance Agent</span>
+</div>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:1rem;color:var(--slate);line-height:1.8;margin-top:.75rem">
+<li>Synchs stock counts across all platforms in one pass</li>
+<li>Validates promotions and prices against platform rules</li>
+<li>Selects top products based on historical sales data</li>
+<li>Flags compliance risks before the live goes public</li>
+</ul>
+</div>
+<div class="card red-l">
+<div class="phase" style="color:var(--red)">Phase 2 — During the Live</div>
+<h3 class="fw-700 fs-lg mb-sm">Live Backstage Team</h3>
+<p class="fs-sm c-slate mb-md">Runs operations behind the camera: triaging every comment, managing stock atomically, guarding prices.</p>
+<div style="display:flex;flex-wrap:wrap;gap:.4rem">
+<span class="tag-pill" style="color:var(--red);border-color:var(--red);background:var(--red-bg)">Triage Agent</span>
+<span class="tag-pill" style="color:var(--red);border-color:var(--red);background:var(--red-bg)">Order & Stock</span>
+<span class="tag-pill" style="color:var(--red);border-color:var(--red);background:var(--red-bg)">Price Guard</span>
+<span class="tag-pill" style="color:var(--red);border-color:var(--red);background:var(--red-bg)">Coach Agent</span>
+</div>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:1rem;color:var(--slate);line-height:1.8;margin-top:.75rem">
+<li>Reads every comment in real time — Chinese, Malay, English</li>
+<li>Auto-replies to simple questions ("how much", "stock?")</li>
+<li>Escalates serious issues to a live prompt the seller can see</li>
+<li>Atomically decrements stock across all platforms</li>
+<li>Flags price mismatches before they reach the buyer</li>
+</ul>
+</div>
+<div class="card suc-l">
+<div class="phase" style="color:var(--suc)">Phase 3 — After the Live</div>
+<h3 class="fw-700 fs-lg mb-sm">Post-Live Wrap-up Team</h3>
+<p class="fs-sm c-slate mb-md">Cleans up: reconciling orders, restocking, following up, and planning the next session.</p>
+<div style="display:flex;flex-wrap:wrap;gap:.4rem">
+<span class="tag-pill suc">Reconciliation</span>
+<span class="tag-pill suc">Restock Agent</span>
+<span class="tag-pill suc">Follow-up Agent</span>
+<span class="tag-pill suc">Planner Agent</span>
+</div>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:1rem;color:var(--slate);line-height:1.8;margin-top:.75rem">
+<li>Confirms every order, sends invoices, processes payments</li>
+<li>Detects oversells and initiates refunds or backorders</li>
+<li>Sends follow-up messages to buyers who showed interest</li>
+<li>Generates a post-live report: what sold, what flopped, why</li>
+<li>Plans the next live session based on the data</li>
+</ul>
+</div>
+</div>
+<div class="card mt-lg reveal" style="border-left:5px solid var(--pri);background:var(--white)">
+<div class="badge pri mb-sm">STREAMSENSE ARCHITECTURE</div>
+<p class="fs-md" style="color:var(--ink2)">StreamSense runs the <strong>Pre-Live</strong> and <strong>Post-Live</strong> teams on WorkBuddy's multi-agent platform (Team Expert Mode), using a file-based handoff with <code style="background:var(--slate-ll);padding:.1rem .4rem;border-radius:4px;font-size:.9rem">session.json</code> as the coordination layer. The <strong>Live Backstage</strong> team runs in real time on StreamSense's own Supabase + DeepAgent runtime for sub-second response latency.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ 07 COMPETITORS — DARK SECTION ============ -->
+<section class="section dark" id="s7">
+<div class="container">
+<div class="sh">
+<div class="sh-num" style="color:var(--acc-l)">06</div>
+<div class="sh-text">
+<div class="sh-label" style="color:var(--acc-l)">Competitive Landscape</div>
+<h2 class="sh-title">Why nobody else <span class="grad-txt">solves this.</span></h2>
+<p class="sh-sub">Existing tools handle fragments. StreamSense is the only end-to-end agentic solution built for solo sellers.</p>
+</div>
+</div>
+<div class="card reveal" style="padding:0;overflow:hidden;background:var(--ink2)">
+<table class="tbl">
+<thead>
+<tr>
+<th style="width:22%">Capability</th>
+<th style="width:15%">TikTok Built-in</th>
+<th style="width:14%">Shopee Live</th>
+<th style="width:15%">Third-Party</th>
+<th style="width:14%">Manual</th>
+<th style="width:14%">StreamSense</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Multi-platform stock sync</strong></td>
+<td style="color:var(--red)">Single platform</td>
+<td style="color:var(--red)">Single platform</td>
+<td style="color:var(--amber)">Partial</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--suc);font-weight:700">Yes — real-time atomic</td>
+</tr>
+<tr>
+<td><strong>Live comment triage</strong></td>
+<td style="color:var(--red)">None</td>
+<td style="color:var(--red)">None</td>
+<td style="color:var(--red)">None</td>
+<td style="color:var(--red)">Human reads all</td>
+<td style="color:var(--suc);font-weight:700">4-class AI triage</td>
+</tr>
+<tr>
+<td><strong>Auto-reply to buyers</strong></td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--suc);font-weight:700">Yes — grounded only</td>
+</tr>
+<tr>
+<td><strong>Price mismatch detection</strong></td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--amber)">Post-sale only</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--suc);font-weight:700">Real-time guard</td>
+</tr>
+<tr>
+<td><strong>Post-live reconciliation</strong></td>
+<td style="color:var(--amber)">Basic</td>
+<td style="color:var(--amber)">Basic</td>
+<td style="color:var(--amber)">Partial</td>
+<td style="color:var(--red)">Manual</td>
+<td style="color:var(--suc);font-weight:700">Fully automated</td>
+</tr>
+<tr>
+<td><strong>Buyer follow-up messaging</strong></td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--suc);font-weight:700">Yes — automated</td>
+</tr>
+<tr>
+<td><strong>Next-session planning</strong></td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--amber)">Basic</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--suc);font-weight:700">Yes — AI-driven</td>
+</tr>
+<tr>
+<td><strong>Multi-language support</strong></td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--red)">No</td>
+<td style="color:var(--amber)">Human</td>
+<td style="color:var(--suc);font-weight:700">CN / BM / EN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- ============ 08 AGENTIC FLOW ============ -->
+<section class="section" id="s8">
+<div class="container">
+<div class="sh">
+<div class="sh-num">07</div>
+<div class="sh-text">
+<div class="sh-label">How It Works</div>
+<h2 class="sh-title">From comment to action — <span class="grad-txt">in 800ms.</span></h2>
+<p class="sh-sub">Every buyer comment enters a four-class triage pipeline. The system decides what to auto-reply, what to escalate, and what to ignore.</p>
+</div>
+</div>
+
+<div class="card reveal" style="padding:2rem;margin-bottom:1.5rem">
+<div class="tc mb-lg">
+<span class="badge pri">INPUT</span>
+<h3 class="fw-700 fs-lg mt-sm">Live Comment Stream</h3>
+<p class="fs-sm c-slate mt-sm">Chinese, Malay, English — all parsed simultaneously</p>
+</div>
+<div class="flow reveal">
+<div class="flow-node" style="border-left:4px solid var(--pri)">
+<div class="badge pri mb-sm">STEP 1</div>
+<h4 class="fw-700 fs-md mb-sm">Triage Agent</h4>
+<p class="fs-sm c-slate">Classifies each comment into one of four categories using intent detection.</p>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node" style="border-left:4px solid var(--acc)">
+<div class="badge acc mb-sm">STEP 2</div>
+<h4 class="fw-700 fs-md mb-sm">Grounding Gate</h4>
+<p class="fs-sm c-slate">Checks if an auto-reply can be grounded in the product database. If not — blocked.</p>
+</div>
+</div>
+<div style="margin:1.5rem 0"></div>
+<div class="grid g-4 reveal">
+<div class="card suc-l tc">
+<div class="badge suc mb-sm">CLASS A</div>
+<h4 class="fw-700 fs-md mb-sm" style="color:var(--suc)">Auto-Reply</h4>
+<p class="fs-sm c-slate">"How much?" → "RM29.90, tap the yellow basket!"<br>Latency: &lt;500ms</p>
+</div>
+<div class="card amber-l tc">
+<div class="badge amber mb-sm">CLASS B</div>
+<h4 class="fw-700 fs-md mb-sm" style="color:var(--amber)">Escalate</h4>
+<p class="fs-sm c-slate">"Can I mix colors?" → routed to seller's live prompt overlay</p>
+</div>
+<div class="card red-l tc">
+<div class="badge red mb-sm">CLASS C</div>
+<h4 class="fw-700 fs-md mb-sm" style="color:var(--red)">Warn</h4>
+<p class="fs-sm c-slate">"Is this halal?" → flagged for compliance, seller notified</p>
+</div>
+<div class="card" style="border-left:4px solid var(--slate-l)">
+<div class="badge" style="color:var(--slate);background:var(--slate-ll)">CLASS D</div>
+<h4 class="fw-700 fs-md mb-sm" style="color:var(--slate)">Ignore</h4>
+<p class="fs-sm c-slate">"🔥🔥🔥" → filtered out, no action taken</p>
+</div>
+</div>
+<div style="margin:1.5rem 0"></div>
+<div class="flow reveal">
+<div class="flow-node" style="border-left:4px solid var(--suc)">
+<div class="badge suc mb-sm">STEP 3</div>
+<h4 class="fw-700 fs-md mb-sm">Order & Stock</h4>
+<p class="fs-sm c-slate">Atomically decrements stock across all platforms. Blocks oversells.</p>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node" style="border-left:4px solid var(--amber)">
+<div class="badge amber mb-sm">STEP 4</div>
+<h4 class="fw-700 fs-md mb-sm">Price Guard</h4>
+<p class="fs-sm c-slate">Verifies charged price matches promised price. Flags mismatches.</p>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node" style="border-left:4px solid var(--pri)">
+<div class="badge pri mb-sm">STEP 5</div>
+<h4 class="fw-700 fs-md mb-sm">Coach Agent</h4>
+<p class="fs-sm c-slate">Sends seller real-time prompts: "Mention the new shade", "Show the back of the box".</p>
+</div>
+</div>
+</div>
+
+<div class="card reveal" style="border-left:5px solid var(--acc);background:var(--acc-bg)">
+<div class="badge acc mb-sm">SAFETY: GROUNDING GATE</div>
+<p class="fs-md" style="color:var(--ink2)"><strong>No agent is allowed to auto-reply unless its answer is grounded in the product database.</strong> If the triage agent can't find a verified answer — the comment is escalated to the human seller instead. This prevents hallucinated pricing, wrong stock claims, and compliance violations. It is the single most important guardrail in the system.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ 09 DEMO ============ -->
+<section class="section suc-bg" id="s9">
+<div class="container">
+<div class="sh">
+<div class="sh-num">08</div>
+<div class="sh-text">
+<div class="sh-label">Live Demo</div>
+<h2 class="sh-title">The same chat, <span class="grad-txt-suc">before & after.</span></h2>
+<p class="sh-sub">The same comment stream that overwhelms a solo seller becomes an automated, revenue-capturing pipeline.</p>
+</div>
+</div>
+
+<div class="grid g-2 reveal" style="align-items:start">
+<div>
+<div class="badge red mb-md">WITHOUT STREAMSENSE</div>
+<div class="card red-l" style="padding:1.5rem">
+<div class="cmt"><span class="lang">CN</span>多少钱？</div>
+<div class="cmt"><span class="lang">BM</span>Ada stok lagi?</div>
+<div class="cmt"><span class="lang">CN</span>nak 3 jar!</div>
+<div class="cmt"><span class="lang">EN</span>Can I get a discount if I buy 3?</div>
+<div class="cmt"><span class="lang">CN</span>有蓝色吗？</div>
+<div style="margin-top:.5rem;padding:.75rem;background:var(--red-bg);border-radius:8px">
+<p class="fs-sm" style="color:var(--red);font-weight:600">⚠ 4 of 5 comments unanswered. 1 sale lost. Stock remained stale.</p>
+</div>
+</div>
+</div>
+<div>
+<div class="badge suc mb-md">WITH STREAMSENSE</div>
+<div class="card suc-l" style="padding:1.5rem">
+<div class="cmt" style="border-left-color:var(--suc)"><span class="lang" style="color:var(--suc)">CN</span>多少钱？ <span class="tag-pill suc" style="font-size:.75rem;display:inline-block;margin-left:.5rem">REPLIED</span><br><span style="color:var(--suc);font-size:.95rem;font-weight:600">→ "RM29.90! Tap the yellow basket 🛒"</span></div>
+<div class="cmt" style="border-left-color:var(--suc)"><span class="lang" style="color:var(--suc)">BM</span>Ada stok lagi? <span class="tag-pill suc" style="font-size:.75rem;display:inline-block;margin-left:.5rem">REPLIED</span><br><span style="color:var(--suc);font-size:.95rem;font-weight:600">→ "Yes! 47 units left. Order now!"</span></div>
+<div class="cmt" style="border-left-color:var(--amber)"><span class="lang" style="color:var(--amber)">CN</span>nak 3 jar! <span class="tag-pill" style="font-size:.75rem;display:inline-block;margin-left:.5rem;color:var(--amber);border-color:var(--amber);background:var(--amber-bg)">CAPTURED</span><br><span style="color:var(--amber);font-size:.95rem;font-weight:600">→ Stock -3. Invoice sent. Seller notified.</span></div>
+<div class="cmt" style="border-left-color:var(--acc)"><span class="lang" style="color:var(--acc)">EN</span>Can I get a discount if I buy 3? <span class="tag-pill acc" style="font-size:.75rem;display:inline-block;margin-left:.5rem">ESCALATED</span><br><span style="color:var(--acc);font-size:.95rem;font-weight:600">→ Routed to seller: "Buyer wants bulk discount on 3 units"</span></div>
+<div class="cmt" style="border-left-color:var(--suc)"><span class="lang" style="color:var(--suc)">CN</span>有蓝色吗？ <span class="tag-pill suc" style="font-size:.75rem;display:inline-block;margin-left:.5rem">REPLIED</span><br><span style="color:var(--suc);font-size:.95rem;font-weight:600">→ "Yes, blue is in stock! 📘"</span></div>
+<div style="margin-top:.5rem;padding:.75rem;background:var(--suc-bg);border-radius:8px">
+<p class="fs-sm" style="color:var(--suc);font-weight:600">✓ 4 of 5 auto-replied in &lt;500ms. 1 order captured. 1 escalation. 0 sales lost.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 10 TECH STACK ============ -->
+<section class="section cream" id="s10">
+<div class="container">
+<div class="sh">
+<div class="sh-num">09</div>
+<div class="sh-text">
+<div class="sh-label">Technical Architecture</div>
+<h2 class="sh-title">Enterprise-grade live commerce, <span class="grad-txt">no agency team required.</span></h2>
+<p class="sh-sub">StreamSense uses a decoupled architecture: WorkBuddy (Team Expert Mode) serves as the asynchronous back office for pre/post-live planning, while the StreamSense App serves as the real-time earpiece and dashboard. They communicate via secure shared file handoff (JSON/CSV).</p>
+</div>
+</div>
+
+<!-- Architecture table -->
+<div class="card reveal" style="padding:0;overflow:hidden;margin-bottom:1.5rem">
+<table class="tbl">
+<thead>
+<tr>
+<th style="width:20%">Component</th>
+<th style="width:28%">Technology</th>
+<th style="width:52%">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Frontend Dashboard</strong></td>
+<td><span class="tag-pill pri">Next.js</span> <span class="tag-pill pri">TypeScript</span> <span class="tag-pill pri">Tailwind</span></td>
+<td>High-contrast host control dashboard with instant UI updates via Supabase Realtime. Includes an Agent Activity Rail showing exactly which agent handled each comment and why.</td>
+</tr>
+<tr>
+<td><strong>AI Back Office</strong></td>
+<td><span class="tag-pill acc">WorkBuddy</span> <span class="tag-pill acc">Team Expert Mode</span></td>
+<td>Agentic workflow for pre-live planning and post-live reconciliation. Fans out tasks to Finance, Sales, Compliance, Reconciliation, Restock, Follow-up, and Planner agents.</td>
+</tr>
+<tr>
+<td><strong>Real-time Sync &amp; DB</strong></td>
+<td><span class="tag-pill suc">Supabase</span> <span class="tag-pill suc">Postgres</span> <span class="tag-pill suc">Realtime API</span></td>
+<td>Sub-second sync of chat cards and atomic stock reservations. Row-level locking prevents race conditions. Pushes triage results to the host's screen instantly.</td>
+</tr>
+<tr>
+<td><strong>Live Backend Engine</strong></td>
+<td><span class="tag-pill" style="color:var(--red);border-color:var(--red);background:var(--red-bg)">FastAPI</span> <span class="tag-pill" style="color:var(--red);border-color:var(--red);background:var(--red-bg)">Node.js</span></td>
+<td>High-performance webhook ingestion and deterministic rules engine execution. Receives HTTP POST payloads from TikTok Live or Shopee (or local DOM scraper for prototype).</td>
+</tr>
+<tr>
+<td><strong>Live AI Triage</strong></td>
+<td><span class="tag-pill amber" style="color:var(--amber);border-color:var(--amber);background:var(--amber-bg)">DeepAgent</span> <span class="tag-pill amber" style="color:var(--amber);border-color:var(--amber);background:var(--amber-bg)">Tiered LLM</span></td>
+<td>Small Language Models (SLMs) handle spam/emoji noise (70% of chat). High-tier LLMs only triggered for complex product inquiries — preventing unit economics from collapsing during viral streams.</td>
+</tr>
+<tr>
+<td><strong>Integrations</strong></td>
+<td><span class="tag-pill" style="color:var(--ink);border-color:var(--ink2);background:var(--slate-ll)">TikTok Live API</span> <span class="tag-pill" style="color:var(--ink);border-color:var(--ink2);background:var(--slate-ll)">Shopee API</span></td>
+<td>Direct webhook ingestion of live chat and event streams. Receives viewer IDs and comments in real time during the stream.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Tiered compute + grounding gate -->
+<div class="grid g-2 reveal">
+<div class="card pri-l">
+<div class="badge pri mb-sm">TIERED COMPUTE</div>
+<h3 class="fw-700 fs-lg mb-sm">70/30 LLM Routing</h3>
+<p class="fs-sm c-slate mb-md">70% of chat traffic is spam, emojis, and noise ("🔥🔥🔥", "+1"). These are routed through cheap, low-latency Small Language Models (SLMs) for instant classification. Only the remaining 30% — genuine product questions, negotiation attempts, compliance-sensitive queries — triggers expensive high-tier LLMs.</p>
+<div style="padding:.75rem;background:var(--pri-bg);border-radius:8px;font-size:.95rem;color:var(--pri)"><strong>Why this matters:</strong> During a viral stream with 500+ comments/minute, routing everything through GPT-class models would cost more than the stream earns. Tiered routing keeps unit economics positive.</div>
+</div>
+<div class="card acc-l">
+<div class="badge acc mb-sm">GROUNDING GATE</div>
+<h3 class="fw-700 fs-lg mb-sm">Deterministic Hallucination Block</h3>
+<p class="fs-sm c-slate mb-md">Before any auto-reply is sent, a deterministic code layer checks the Supabase database: does the product have stock? Does the suggested price violate <code style="background:var(--slate-ll);padding:.1rem .3rem;border-radius:4px;font-size:.9rem">price_floors.json</code> boundaries calculated by StreamSense's Finance Agent?</p>
+<p class="fs-sm c-slate">If the AI suggests a discount below the floor, the Price Guard blocks it. If stock is zero, the reply is blocked. No hallucinated pricing, no wrong stock claims, no compliance violations — ever.</p>
+</div>
+</div>
+
+<!-- Data flow -->
+<div class="mt-lg">
+<div class="card reveal" style="border-left:5px solid var(--pri);padding:2rem">
+<div class="badge pri mb-md">DATA FLOW — END TO END</div>
+<div class="grid g-3" style="gap:1rem">
+<div>
+<div class="annotate" data-n="1">
+<h4 class="fw-700 fs-md mb-sm" style="color:var(--pri)">Pre-Live Planning</h4>
+<p class="fs-sm c-slate">Seller activates StreamSense Pre-Live mode. Finance Agent reads <code style="background:var(--slate-ll);padding:.1rem .3rem;border-radius:4px;font-size:.9rem">cost_sheet.csv</code> and computes price floors. Compliance Agent scans for prohibited medical/legal claims, bounces back to Sales Agent for rewrites. Outputs <code style="background:var(--slate-ll);padding:.1rem .3rem;border-radius:4px;font-size:.9rem">price_floors.json</code> + multilingual script.</p>
+</div>
+</div>
+<div>
+<div class="annotate" data-n="2">
+<h4 class="fw-700 fs-md mb-sm" style="color:var(--acc)">Live Ingestion &amp; Triage</h4>
+<p class="fs-sm c-slate">FastAPI backend receives webhook POST payloads from TikTok Live / Shopee containing viewer IDs and comments. DeepAgent triage classifies each comment. Grounding Gate vetoes ungrounded replies. Supabase Realtime pushes results to the Next.js dashboard — host sees stock counter (120 → 117) and red [WARN HOST] cards.</p>
+</div>
+</div>
+<div>
+<div class="annotate" data-n="3">
+<h4 class="fw-700 fs-md mb-sm" style="color:var(--suc)">Post-Live Reconciliation</h4>
+<p class="fs-sm c-slate">App exports <code style="background:var(--slate-ll);padding:.1rem .3rem;border-radius:4px;font-size:.9rem">session.json</code> with all reservations, chat logs, and blocked discounts. StreamSense's Post-Live team ingests it: Reconciliation Agent generates an Excel profit sheet. Follow-up Agent drafts Shopee Chat messages. Planner Agent saves <code style="background:var(--slate-ll);padding:.1rem .3rem;border-radius:4px;font-size:.9rem">next_live_faq.json</code> for the next broadcast.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- File handoff -->
+<div class="card mt-lg reveal" style="border-left:5px solid var(--amber);background:var(--amber-bg)">
+<div class="badge amber mb-sm" style="color:var(--amber);background:var(--white)">INTEGRATION STRATEGY</div>
+<p class="fs-md" style="color:var(--ink2)">No complex API connection needed between the StreamSense back office and live app. The two systems integrate by passing JSON and CSV files through a single shared, authorized folder. WorkBuddy processes files as the back office; the StreamSense App handles the real-time chat interface. <strong>Full separation of concerns.</strong></p>
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem">
+<span class="tag-pill" style="color:var(--amber);border-color:var(--amber);background:var(--white)">cost_sheet.csv</span>
+<span class="tag-pill" style="color:var(--amber);border-color:var(--amber);background:var(--white)">price_floors.json</span>
+<span class="tag-pill" style="color:var(--amber);border-color:var(--amber);background:var(--white)">session.json</span>
+<span class="tag-pill" style="color:var(--amber);border-color:var(--amber);background:var(--white)">orders_export.csv</span>
+<span class="tag-pill" style="color:var(--amber);border-color:var(--amber);background:var(--white)">next_live_faq.json</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 11 IMPACT ============ -->
+<section class="section pri-bg" id="s11">
+<div class="container">
+<div class="sh">
+<div class="sh-num">10</div>
+<div class="sh-text">
+<div class="sh-label">National Relevance &amp; Impact</div>
+<h2 class="sh-title">Built for the realities of <span class="grad-txt">Malaysian e-commerce.</span></h2>
+<p class="sh-sub">StreamSense is uniquely designed for Malaysia — not adapted from a Western or Chinese template.</p>
+</div>
+</div>
+<div class="grid g-4 reveal">
+<div class="card pri-l tc">
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--pri)">US$12.2B</div>
+<p class="fs-sm c-slate mt-sm">Malaysian e-commerce market projected by 2026</p>
+</div>
+<div class="card acc-l tc">
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--acc)">3x</div>
+<p class="fs-sm c-slate mt-sm">estimated conversion rate increase during live sessions</p>
+</div>
+<div class="card suc-l tc">
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--suc)">90%+</div>
+<p class="fs-sm c-slate mt-sm">of buyer comments auto-answered in &lt;1 second</p>
+</div>
+<div class="card amber-l tc">
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--amber)">0</div>
+<p class="fs-sm c-slate mt-sm">shadowbans from accidental medical/legal claims</p>
+</div>
+</div>
+
+<div class="grid g-3 mt-lg reveal">
+<div class="card pri-l">
+<div class="badge pri mb-sm">ECONOMIC VALUE</div>
+<h3 class="fw-700 fs-md mb-sm">Captures Abandoned Intent</h3>
+<p class="fs-sm c-slate">Captures abandoned checkout intent and protects margins for MSMEs in a market projected to reach US$12.18B by 2026. Every unanswered comment is captured revenue — StreamSense turns it back into sales.</p>
+</div>
+<div class="card acc-l">
+<div class="badge acc mb-sm">LOCALIZED INTELLIGENCE</div>
+<h3 class="fw-700 fs-md mb-sm">Manglish, Bahasa Rojak, Mixed Dialects</h3>
+<p class="fs-sm c-slate">Natively processes multi-language Malaysian streams. Understands unstructured Manglish, Bahasa Rojak, and mixed CN/BM/EN dialects — instead of relying on rigid keyword triggers like "+1" that miss real conversation patterns.</p>
+</div>
+<div class="card suc-l">
+<div class="badge suc mb-sm">BRAND SAFETY</div>
+<h3 class="fw-700 fs-md mb-sm">Shadowban Defense</h3>
+<p class="fs-sm c-slate">Defends against strict platform shadowbans by catching accidental medical or legal claims <strong>before</strong> the host says them aloud. The Compliance Agent scans drafted scripts and blocks risky auto-replies at the grounding gate.</p>
+</div>
+</div>
+
+<div class="mt-lg reveal">
+<div class="pull-quote">A solo seller who currently loses 40% of potential sales to unanswered comments, oversold stock, and post-live drop-off can recover most of that revenue — without hiring a single person. StreamSense turns five hats back into one.</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 12 BUSINESS MODEL ============ -->
+<section class="section" id="s12">
+<div class="container">
+<div class="sh">
+<div class="sh-num">11</div>
+<div class="sh-text">
+<div class="sh-label">Business Model</div>
+<h2 class="sh-title">Pricing that grows <span class="grad-txt">with the seller.</span></h2>
+<p class="sh-sub">Free to start. Pay only when StreamSense is actually running lives. Scale up as the business grows.</p>
+</div>
+</div>
+<div class="grid g-4 reveal">
+<div class="price-card">
+<div class="badge" style="color:var(--slate);background:var(--slate-ll)">FREE</div>
+<h3 class="fw-700 fs-md mb-sm mt-sm">Starter</h3>
+<div class="price-amt">RM0</div>
+<div class="price-per">forever</div>
+<ul style="text-align:left;font-size:.95rem;color:var(--slate);line-height:1.9;margin-top:1rem;list-style:disc;padding-left:1.2rem">
+<li>1 live session / month</li>
+<li>Comment triage (live)</li>
+<li>Basic stock sync (1 platform)</li>
+<li>Post-live summary report</li>
+</ul>
+</div>
+<div class="price-card">
+<div class="badge pri mb-sm">SOLO</div>
+<h3 class="fw-700 fs-md mb-sm mt-sm">Grow</h3>
+<div class="price-amt" style="color:var(--pri)">RM49</div>
+<div class="price-per">per month</div>
+<ul style="text-align:left;font-size:.95rem;color:var(--slate);line-height:1.9;margin-top:1rem;list-style:disc;padding-left:1.2rem">
+<li>8 live sessions / month</li>
+<li>Full triage + auto-reply</li>
+<li>Multi-platform stock sync</li>
+<li>Price guard + coach prompts</li>
+<li>Post-live reconciliation</li>
+</ul>
+</div>
+<div class="price-card featured">
+<div class="badge acc mb-sm">PRO</div>
+<h3 class="fw-700 fs-md mb-sm mt-sm">Pro</h3>
+<div class="price-amt" style="color:var(--acc)">RM149</div>
+<div class="price-per">per month</div>
+<ul style="text-align:left;font-size:.95rem;color:var(--slate);line-height:1.9;margin-top:1rem;list-style:disc;padding-left:1.2rem">
+<li>Unlimited live sessions</li>
+<li>All Grow features</li>
+<li>Buyer follow-up automation</li>
+<li>Next-session AI planning</li>
+<li>Compliance agent</li>
+<li>Priority support</li>
+</ul>
+</div>
+<div class="price-card">
+<div class="badge suc mb-sm">AGENCY</div>
+<h3 class="fw-700 fs-md mb-sm mt-sm">Scale</h3>
+<div class="price-amt" style="color:var(--suc)">RM399</div>
+<div class="price-per">per month</div>
+<ul style="text-align:left;font-size:.95rem;color:var(--slate);line-height:1.9;margin-top:1rem;list-style:disc;padding-left:1.2rem">
+<li>Multi-seller accounts</li>
+<li>All Pro features</li>
+<li>White-label dashboard</li>
+<li>API access</li>
+<li>Dedicated agent tuning</li>
+<li>SLA guarantee</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 13 MARKET OPPORTUNITY ============ -->
+<section class="section acc-bg" id="s13">
+<div class="container">
+<div class="sh">
+<div class="sh-num">12</div>
+<div class="sh-text">
+<div class="sh-label">Market Opportunity</div>
+<h2 class="sh-title">TAM, SAM, SOM — <span class="grad-txt">the numbers.</span></h2>
+<p class="sh-sub">From 1.1 million micro-businesses to RM2.8M in early ARR — the path is clear.</p>
+</div>
+</div>
+<div class="grid g-3 reveal" style="margin-bottom:1.5rem">
+<div class="card pri-l tc">
+<div class="badge pri mb-sm">TAM</div>
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;color:var(--pri)">1.1M</div>
+<p class="fs-sm c-slate mt-sm">Malaysian micro-businesses</p>
+<p class="c-slate" style="font-size:.9rem;margin-top:.5rem">All MSMEs that could benefit from live-selling automation</p>
+</div>
+<div class="card acc-l tc">
+<div class="badge acc mb-sm">SAM</div>
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;color:var(--acc)">55K</div>
+<p class="fs-sm c-slate mt-sm">Active live sellers</p>
+<p class="c-slate" style="font-size:.9rem;margin-top:.5rem">Sellers doing 2+ live sessions per month across platforms</p>
+</div>
+<div class="card suc-l tc">
+<div class="badge suc mb-sm">SOM</div>
+<div class="num" style="font-family:var(--fh);font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;color:var(--suc)">2.4K</div>
+<p class="fs-sm c-slate mt-sm">Early adopters (Year 1)</p>
+<p class="c-slate" style="font-size:.9rem;margin-top:.5rem">Sellers in Klang Valley + Penang, on Pro plan</p>
+</div>
+</div>
+<div class="card reveal" style="border-left:5px solid var(--pri)">
+<h3 class="fw-700 fs-md mb-sm">Revenue Math</h3>
+<table class="tbl" style="margin-top:.5rem">
+<tr><td style="width:60%"><strong>SAM</strong> — active live sellers</td><td>55,000</td></tr>
+<tr><td><strong>Target capture (Year 1)</strong></td><td>4.4% → 2,420 sellers</td></tr>
+<tr><td><strong>Blended ARPU</strong> (mix of Grow + Pro)</td><td>RM99 / month</td></tr>
+<tr><td><strong>Monthly revenue</strong></td><td style="color:var(--suc);font-weight:700">RM239,580</td></tr>
+<tr><td><strong>Annual recurring revenue (ARR)</strong></td><td style="color:var(--suc);font-weight:700;font-size:1.05rem">RM2,874,960 ≈ US$610K</td></tr>
+<tr><td><strong>Addressable market value</strong> (SAM × RM1,200/yr)</td><td>RM66,000,000</td></tr>
+</table>
+</div>
+</div>
+</section>
+
+<!-- ============ 14 ROADMAP + RISKS ============ -->
+<section class="section cream" id="s14">
+<div class="container">
+<div class="sh">
+<div class="sh-num">13</div>
+<div class="sh-text">
+<div class="sh-label">Roadmap &amp; Risks</div>
+<h2 class="sh-title">Where we go next — and what <span class="grad-txt">could stop us.</span></h2>
+<p class="sh-sub">A clear 12-month plan, with honest acknowledgment of the risks ahead.</p>
+</div>
+</div>
+<div class="grid g-2 reveal">
+<div class="card pri-l">
+<div class="badge pri mb-md">ROADMAP</div>
+<div style="margin-bottom:1rem">
+<div class="fw-700 fs-md mb-sm" style="color:var(--pri)">Q1 2026 — Pilot</div>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:.95rem;color:var(--slate);line-height:1.8">
+<li>10-seller closed pilot in Klang Valley</li>
+<li>TikTok Live + Shopee integration live</li>
+<li>Triage + Order & Stock agents operational</li>
+<li>Collect baseline metrics (conversion, oversells, response time)</li>
+</ul>
+</div>
+<div style="margin-bottom:1rem">
+<div class="fw-700 fs-md mb-sm" style="color:var(--acc)">Q2 2026 — Public Beta</div>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:.95rem;color:var(--slate);line-height:1.8">
+<li>Launch Grow + Pro tiers</li>
+<li>Pinduoduo Live + Facebook Live integration</li>
+<li>Full 11-agent deployment including Coach + Follow-up</li>
+<li>Target: 200 paying sellers</li>
+</ul>
+</div>
+<div style="margin-bottom:1rem">
+<div class="fw-700 fs-md mb-sm" style="color:var(--suc)">Q3 2026 — Scale</div>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:.95rem;color:var(--slate);line-height:1.8">
+<li>Scale tier for agencies</li>
+<li>API access for third-party developers</li>
+<li>Expand to Singapore + Thailand</li>
+<li>Target: 1,000 paying sellers</li>
+</ul>
+</div>
+<div>
+<div class="fw-700 fs-md mb-sm" style="color:var(--amber)">Q4 2026 — Platform</div>
+<ul style="list-style:disc;padding-left:1.2rem;font-size:.95rem;color:var(--slate);line-height:1.8">
+<li>Marketplace for custom agent skills</li>
+<li>White-label dashboard for agencies</li>
+<li>Expand to Indonesia + Vietnam</li>
+<li>Target: 2,500+ paying sellers, RM2.8M ARR</li>
+</ul>
+</div>
+</div>
+<div class="card red-l">
+<div class="badge red mb-md">RISKS &amp; MITIGATIONS</div>
+<div style="margin-bottom:1.25rem">
+<div class="fw-700 fs-md mb-sm" style="color:var(--red)">Platform API Changes</div>
+<p class="fs-sm c-slate">TikTok Live or Shopee could restrict third-party access to their comment or stock APIs.</p>
+<p class="fs-sm mt-sm" style="color:var(--suc)"><strong>Mitigation:</strong> DeepAgent uses official API channels only. Maintain a fallback mode that escalates all comments to manual when API access is disrupted.</p>
+</div>
+<div style="margin-bottom:1.25rem">
+<div class="fw-700 fs-md mb-sm" style="color:var(--red)">Hallucination Risk</div>
+<p class="fs-sm c-slate">An LLM-powered auto-reply could hallucinate pricing or product information.</p>
+<p class="fs-sm mt-sm" style="color:var(--suc)"><strong>Mitigation:</strong> The grounding gate blocks every auto-reply that cannot be traced to the product database. Hallucinated answers never reach the buyer.</p>
+</div>
+<div style="margin-bottom:1.25rem">
+<div class="fw-700 fs-md mb-sm" style="color:var(--red)">Multi-Language Errors</div>
+<p class="fs-sm c-slate">Malay, Chinese, and English mixed in the same comment stream could cause misclassification.</p>
+<p class="fs-sm mt-sm" style="color:var(--suc)"><strong>Mitigation:</strong> Triage uses a deterministic rule engine for classification, not LLM. Language detection runs as a separate pre-processing step before intent classification.</p>
+</div>
+<div>
+<div class="fw-700 fs-md mb-sm" style="color:var(--red)">Seller Adoption</div>
+<p class="fs-sm c-slate">Solo sellers may be resistant to AI handling customer interactions.</p>
+<p class="fs-sm mt-sm" style="color:var(--suc)"><strong>Mitigation:</strong> Free tier lets sellers experience the value with zero risk. Auto-replies are always labeled as "assistant" — no deception. Escalation gives the seller full control over complex queries.</p>
+</div>
+</div>
+</div>
+
+<!-- Closing quote -->
+<div class="tc mt-lg reveal" style="padding:2rem 0">
+<p style="font-size:clamp(1.25rem,2.5vw,1.6rem);font-weight:600;line-height:1.4;color:var(--ink);max-width:680px;margin:0 auto">We don't replace the seller. We give her the team she could never afford.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+<div class="container">
+<div class="flogo">Stream<span style="color:var(--acc-l)">Sense</span></div>
+<div class="ftag">The AI Live-Selling Operations Team for Solo Sellers</div>
+<div class="fmeta">Team Last Minute · Track 2: WorkBuddy Agentic Solutions · Dormathon 2026<br>Built with Supabase Realtime, DeepAgent, and WorkBuddy Multi-Agent Platform</div>
+</div>
+</footer>
+
+<!-- ============ HORIZONTAL NAV ============ -->
+<nav class="hnav" id="hnav">
+<a href="#s1" class="active">1</a>
+<a href="#s2">2</a>
+<a href="#s3">3</a>
+<a href="#s4">4</a>
+<a href="#s5">5</a>
+<a href="#s6">6</a>
+<a href="#s7">7</a>
+<a href="#s8">8</a>
+<a href="#s9">9</a>
+<a href="#s10">10</a>
+<a href="#s11">11</a>
+<a href="#s12">12</a>
+<a href="#s13">13</a>
+<a href="#s14">14</a>
+</nav>
+
+<script>
+const pbar=document.getElementById('pbar');
+const tbar=document.getElementById('tbar');
+const navLinks=document.querySelectorAll('.hnav a');
+const sections=document.querySelectorAll('section[id]');
+const reveals=document.querySelectorAll('.reveal');
+const revealObs=new IntersectionObserver((entries)=>{
+entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show')}});
+},{threshold:0.08,rootMargin:'0px 0px -50px 0px'});
+reveals.forEach(el=>revealObs.observe(el));
+function onScroll(){
+const st=window.scrollY;
+const docH=document.documentElement.scrollHeight-window.innerHeight;
+const pct=docH>0?(st/docH)*100:0;
+pbar.style.width=pct+'%';
+if(st>10){tbar.classList.add('scrolled')}else{tbar.classList.remove('scrolled')}
+let cur='s1';
+sections.forEach(s=>{
+if(st>=s.offsetTop-200){cur=s.id}
+});
+navLinks.forEach(a=>{
+a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
+});
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+navLinks.forEach(a=>{
+a.addEventListener('click',e=>{
+e.preventDefault();
+const target=document.querySelector(a.getAttribute('href'));
+if(target){window.scrollTo({top:target.offsetTop-60,behavior:'smooth'})}
+});
+});
+</script>
+
+</body>
+</html>
