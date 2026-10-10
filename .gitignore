@@ -1,6 +1,20 @@
+node_modules/
+.next/
+.next-check/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+.env
+.env.local
+.env.*.local
+
+# briefing material and internal working notes, not part of the product
+*.pdf
+/PLAN.md
+/DESIGN.md
+
+.DS_Store
+Thumbs.db
 .workbuddy-ai/
 __pycache__/
-*.pyc
-.DS_Store
-node_modules/
-.env

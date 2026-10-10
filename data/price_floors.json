@@ -1,0 +1,8 @@
+{
+  "products": [
+    { "sku": "SAMBAL-200", "name": "Sambal Bilis Kak Ina 200g", "price": 15.0, "floor": 11.5, "stock": 120 },
+    { "sku": "KEREPEK-250", "name": "Kerepek Pisang Pedas 250g", "price": 9.0, "floor": 6.8, "stock": 80 },
+    { "sku": "SERUNDING-150", "name": "Serunding Daging 150g", "price": 22.0, "floor": 17.9, "stock": 40 },
+    { "sku": "TART-50", "name": "Tart Nenas 50 biji", "price": 28.0, "floor": 22.4, "stock": 30 }
+  ]
+}

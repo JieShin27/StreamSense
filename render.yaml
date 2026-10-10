@@ -1,0 +1,30 @@
+# Deploys StreamSense as one always-on Node service.
+# The live room is held in the server's memory, so it must run as a single instance.
+services:
+  - type: web
+    name: streamsense
+    runtime: node
+    plan: free
+    numInstances: 1
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /buyer
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: LLM_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: LLM_MODEL
+        value: openai/gpt-oss-120b,openai/gpt-oss-20b,qwen/qwen3.8-27b
+      - key: LLM_REASONING_EFFORT
+        value: low
+      - key: LLM_API_KEY
+        sync: false
+      - key: LIVEKIT_URL
+        sync: false
+      - key: LIVEKIT_API_KEY
+        sync: false
+      - key: LIVEKIT_API_SECRET
+        sync: false
+      - key: MCP_TOKEN
+        generateValue: true
