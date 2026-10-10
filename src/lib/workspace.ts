@@ -3,12 +3,13 @@ import { alertHost, log } from './backstage';
 import { floorNotes, floorsFromUploads } from './floors';
 import { importFloors } from './pipeline';
 import { getState, nextId, now, update } from './store';
-import type { FaqItem } from './types';
+import type { AgentName, FaqItem } from './types';
 import { teamHandedIn } from './workbuddy';
 
 // The seller's desk outside the live: what she uploaded, what the pre-live team
 // produced, and what the post-live team produced. WorkBuddy reads and writes
-// this through MCP; the Prepare and Wrap-up pages show it.
+// this through MCP, the app's own team (teams.ts) directly; the Prepare and
+// Wrap-up pages show it.
 
 const MAX_UPLOAD_CHARS = 200_000;
 const str = (v: unknown, max = 60_000) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
@@ -43,7 +44,7 @@ export function loadFromCostSheet() {
 }
 
 /** Pre-live team hands in its work: floors go live in the room, documents go on the Prepare page. */
-export function savePrelivePack(args: Record<string, unknown>) {
+export function savePrelivePack(args: Record<string, unknown>, by: AgentName = 'WorkBuddy') {
   const script = str(args.script_markdown);
   const cueCard = str(args.cue_card_markdown);
   if (!script || !cueCard) return { ok: false as const, error: 'script_markdown and cue_card_markdown are both required' };
@@ -57,18 +58,18 @@ export function savePrelivePack(args: Record<string, unknown>) {
       script,
       cueCard,
       complianceLog: str(args.compliance_log_markdown) || undefined,
-      floorNotes: computed ? floorNotes(computed) : str(args.floor_notes_markdown) || undefined,
+      floorNotes: computed ? [floorNotes(computed), str(args.finance_notes_markdown)].filter(Boolean).join('\n\n') : str(args.floor_notes_markdown) || undefined,
       ts: now(),
     };
-    alertHost(s, { kind: 'workbuddy', by: 'WorkBuddy', text: `Your live is prepared: ${floors.count} products with floor prices, script and cue card are ready.` });
-    log(s, [{ agent: 'WorkBuddy', summary: `save_prelive_pack — ${floors.count} floors loaded, script and cue card saved`, ok: true }]);
+    alertHost(s, { kind: 'workbuddy', by, text: `Your live is prepared: ${floors.count} products with floor prices, script and cue card are ready.` });
+    log(s, [{ agent: by, summary: `save_prelive_pack — ${floors.count} floors loaded, script and cue card saved`, ok: true }]);
     teamHandedIn('prepare');
     return { ok: true as const, products_loaded: floors.count, floors_from: computed ? ('cost sheet' as const) : ('team' as const), view_at: '/prepare' };
   });
 }
 
 /** Post-live team hands in its work. Follow-ups wait for the seller to approve sending. */
-export function saveWrapup(args: Record<string, unknown>) {
+export function saveWrapup(args: Record<string, unknown>, by: AgentName = 'WorkBuddy') {
   const summary = str(args.summary, 2000);
   const salesSheet = str(args.sales_sheet_markdown);
   if (!summary || !salesSheet) return { ok: false as const, error: 'summary and sales_sheet_markdown are both required' };
@@ -84,7 +85,7 @@ export function saveWrapup(args: Record<string, unknown>) {
 
   return update((s) => {
     s.workspace.wrapup = { summary, salesSheet, restockMessage: str(args.restock_message, 3000), followups, nextFaq, ts: now() };
-    log(s, [{ agent: 'WorkBuddy', summary: `save_wrapup — sales sheet, ${followups.length} follow-ups, ${nextFaq.length} FAQ items`, ok: true }]);
+    log(s, [{ agent: by, summary: `save_wrapup — sales sheet, ${followups.length} follow-ups, ${nextFaq.length} FAQ items`, ok: true }]);
     teamHandedIn('wrapup');
     return { ok: true as const, followups_waiting_for_approval: followups.length, view_at: '/wrapup' };
   });

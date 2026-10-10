@@ -12,7 +12,8 @@ import {
   stopReplay,
 } from '@/lib/pipeline';
 import { hostSpeech } from '@/lib/speech';
-import { startTeam, stopTeam } from '@/lib/workbuddy';
+import { startTeam } from '@/lib/teams';
+import { stopTeam } from '@/lib/workbuddy';
 import { createVoucher, endVoucher } from '@/lib/vouchers';
 import { addUpload, loadFromCostSheet, removeUpload, sendFollowups } from '@/lib/workspace';
 
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
       else startReplay();
       return NextResponse.json({ ok: true });
     case 'run_team': {
-      // The team connects back to this same server, wherever it is running.
+      // A WorkBuddy team connects back to this same server, wherever it is running.
       const origin = new URL(req.url).origin.replace('://localhost', '://127.0.0.1');
       return NextResponse.json(startTeam(body.kind === 'wrapup' ? 'wrapup' : 'prepare', origin));
     }

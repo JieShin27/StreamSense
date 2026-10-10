@@ -67,7 +67,7 @@ export default function AgentsView() {
       </header>
 
       <section className="team-map">
-        <TeamGroup title="Before the live" where="WorkBuddy" flow="Finance ∥ Sales → Compliance ⇄ Sales">
+        <TeamGroup title="Before the live" where={runs.prepare?.engine === 'model' ? 'StreamSense' : 'WorkBuddy'} flow="Finance ∥ Sales → Compliance ⇄ Sales">
           {PRE.map((c) => (
             <RoleCard key={c.name} card={c} run={runs.prepare} />
           ))}
@@ -79,7 +79,7 @@ export default function AgentsView() {
           ))}
         </TeamGroup>
         <span className="handoff">session<br />→</span>
-        <TeamGroup title="After the live" where="WorkBuddy" flow="Reconciliation → Restock ∥ Follow-up ∥ Planner">
+        <TeamGroup title="After the live" where={runs.wrapup?.engine === 'model' ? 'StreamSense' : 'WorkBuddy'} flow="Reconciliation → Restock ∥ Follow-up ∥ Planner">
           {POST.map((c) => (
             <RoleCard key={c.name} card={c} run={runs.wrapup} />
           ))}

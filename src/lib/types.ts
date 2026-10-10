@@ -106,7 +106,7 @@ export interface Message {
   ts: string;
 }
 
-export type AgentName = 'Triage' | 'Order & Stock' | 'Support' | 'Price Guard' | 'Coach' | 'Grounding Gate' | 'Host Monitor' | 'WorkBuddy';
+export type AgentName = 'Triage' | 'Order & Stock' | 'Support' | 'Price Guard' | 'Coach' | 'Grounding Gate' | 'Host Monitor' | 'WorkBuddy' | 'Your team';
 
 export interface AgentStep {
   agent: AgentName;
@@ -193,7 +193,7 @@ export interface Workspace {
     nextFaq: FaqItem[];
     ts: string;
   };
-  /** A WorkBuddy team at work, started from a button in the app. */
+  /** A before/after team at work, started from a button in the app. */
   run?: TeamRun;
   /** The last finished run of each kind. */
   lastRuns?: Partial<Record<TeamRun['kind'], TeamRun>>;
@@ -202,6 +202,8 @@ export interface Workspace {
 export interface TeamRun {
   kind: 'prepare' | 'wrapup';
   status: 'running' | 'done' | 'failed';
+  /** Where the roles run: the WorkBuddy engine on her laptop, or the app's own model. */
+  engine?: 'workbuddy' | 'model';
   startedAt: string;
   endedAt?: string;
   /** What the team is doing, as it happens. */

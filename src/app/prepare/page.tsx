@@ -81,7 +81,7 @@ export default function PreparePage() {
             state={state}
             kind="prepare"
             button="Prepare my live"
-            roles="Finance works out your floor prices, Sales writes your script and cue card, and Compliance checks every line. They run in WorkBuddy and hand the results back here."
+            roles="Finance works out your floor prices, Sales writes your script and cue card, and Compliance checks every line. They hand the results back here."
             manualPrompt={PROMPT}
             disabledReason={uploads.length === 0 ? 'Upload at least your cost sheet first.' : undefined}
           />

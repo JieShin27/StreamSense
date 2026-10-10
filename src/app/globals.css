@@ -178,7 +178,7 @@ details > summary::-webkit-details-marker { display: none; }
 .a-support { color: #6fd3e0; }
 .a-priceguard { color: var(--accent); }
 .a-coach { color: var(--warn); }
-.a-groundinggate, .a-workbuddy { color: var(--violet); }
+.a-groundinggate, .a-workbuddy, .a-yourteam { color: var(--violet); }
 
 .tag { float: right; margin-left: 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; padding: 1px 6px; border-radius: 999px; border: 1px solid currentColor; }
 .tag.order { color: var(--ok); }

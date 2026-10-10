@@ -63,7 +63,7 @@ export function clearCooling(): void {
   cooling.clear();
 }
 
-async function chat(messages: WireMessage[], tools: Tool[]): Promise<WireMessage> {
+async function chat(messages: WireMessage[], tools: Tool[], timeoutMs = Number(process.env.LLM_TIMEOUT_MS) || 8000): Promise<WireMessage> {
   const available = models().filter((m) => (cooling.get(m) ?? 0) <= Date.now());
   if (available.length === 0) throw new RateLimited('every model is rate-limited');
 
@@ -71,17 +71,21 @@ async function chat(messages: WireMessage[], tools: Tool[]): Promise<WireMessage
     const res = await fetch(`${process.env.LLM_BASE_URL!.replace(/\/$/, '')}/chat/completions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.LLM_API_KEY}` },
-      signal: AbortSignal.timeout(Number(process.env.LLM_TIMEOUT_MS) || 8000),
+      signal: AbortSignal.timeout(timeoutMs),
       body: JSON.stringify({
         model,
         temperature: 0,
         ...(process.env.LLM_REASONING_EFFORT ? { reasoning_effort: process.env.LLM_REASONING_EFFORT } : {}),
         messages,
-        tools: tools.map((t) => ({
-          type: 'function',
-          function: { name: t.name, description: t.description, parameters: t.parameters },
-        })),
-        tool_choice: 'auto',
+        ...(tools.length
+          ? {
+              tools: tools.map((t) => ({
+                type: 'function',
+                function: { name: t.name, description: t.description, parameters: t.parameters },
+              })),
+              tool_choice: 'auto',
+            }
+          : {}),
       }),
     });
     if (res.status === 429) {
@@ -97,6 +101,16 @@ async function chat(messages: WireMessage[], tools: Tool[]): Promise<WireMessage
     return { role: 'assistant', content: msg.content ?? null, tool_calls: msg.tool_calls };
   }
   throw new RateLimited('every model is rate-limited');
+}
+
+/**
+ * One written answer, no tools: for the before/after teams, whose work is
+ * documents. Writing a page takes longer than reading a comment, so it gets
+ * its own time limit.
+ */
+export async function writeText(system: string, user: string): Promise<string> {
+  const reply = await chat([{ role: 'system', content: system }, { role: 'user', content: user }], [], 90_000);
+  return (reply.content ?? '').trim();
 }
 
 /**

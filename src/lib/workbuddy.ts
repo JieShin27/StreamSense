@@ -12,7 +12,8 @@ import type { TeamRun } from './types';
 // documents and hand in their work through the tools described in /api/mcp.
 //
 // The engine is installed and signed in once on the seller's computer
-// (`npm run workbuddy:login`). A hosted copy of the app does not have it.
+// (`npm run workbuddy:login`). A hosted copy of the app does not have it; there
+// the same roles run in the app (teams.ts).
 
 function cliPath(): string | undefined {
   const candidates = [
@@ -98,7 +99,16 @@ let signInNeeded = false;
 
 const g = globalThis as unknown as { __streamsenseRun?: { kill: () => void } };
 
-function step(who: string, text: string): void {
+/** Put a new run on the page. `kill` is what Stop does to whatever is doing the work. */
+export function beginRun(kind: TeamRun['kind'], engine: NonNullable<TeamRun['engine']>, kill: () => void): void {
+  update((s) => {
+    s.workspace.run = { kind, status: 'running', engine, startedAt: now(), steps: [], spans: [] };
+  });
+  g.__streamsenseRun = { kill };
+  step('Team lead', kind === 'prepare' ? 'Starting: Finance, Sales and Compliance.' : 'Starting: Reconciliation, Restock, Follow-up and Planner.');
+}
+
+export function step(who: string, text: string): void {
   const clean = text.replace(/\s+/g, ' ').trim();
   if (!clean) return;
   if (needsLogin(clean)) {
@@ -114,7 +124,7 @@ function step(who: string, text: string): void {
   });
 }
 
-function finish(status: 'done' | 'failed', error?: string): void {
+export function finish(status: 'done' | 'failed', error?: string): void {
   update((s) => {
     const run = s.workspace.run;
     if (!run || run.status !== 'running') return;
@@ -184,8 +194,6 @@ function onEvent(ev: Record<string, unknown>, agents: Map<string, string>): void
 export function startTeam(kind: TeamRun['kind'], origin: string): { ok: boolean; error?: string } {
   const cli = cliPath();
   if (!cli) return { ok: false, error: 'WorkBuddy is not installed on the computer running StreamSense.' };
-  if (getState().workspace.run?.status === 'running') return { ok: false, error: 'A team is already working.' };
-  if (kind === 'prepare' && getState().workspace.uploads.length === 0) return { ok: false, error: 'Upload your cost sheet first.' };
 
   const brief = BRIEFS[kind];
   const server: Record<string, unknown> = { type: 'http', url: `${origin}/api/mcp` };
@@ -194,11 +202,6 @@ export function startTeam(kind: TeamRun['kind'], origin: string): { ok: boolean;
   // An empty folder of its own: the team needs no files, only the StreamSense tools.
   const cwd = join(tmpdir(), 'streamsense-team');
   mkdirSync(cwd, { recursive: true });
-
-  update((s) => {
-    s.workspace.run = { kind, status: 'running', startedAt: now(), steps: [], spans: [] };
-  });
-  step('Team lead', kind === 'prepare' ? 'Starting: Finance, Sales and Compliance.' : 'Starting: Reconciliation, Restock, Follow-up and Planner.');
 
   const child = spawn(process.execPath, [
     cli, '-p', brief.goal,
@@ -209,7 +212,7 @@ export function startTeam(kind: TeamRun['kind'], origin: string): { ok: boolean;
     '--disallowedTools', 'Bash', 'Write', 'Edit', 'WebFetch', 'WebSearch',
     '--max-turns', '40',
   ], { cwd, windowsHide: true, env: { ...process.env, NO_COLOR: '1' } });
-  g.__streamsenseRun = { kill: () => child.kill() };
+  beginRun(kind, 'workbuddy', () => child.kill());
 
   const agents = new Map<string, string>();
   let buffer = '';
@@ -264,7 +267,8 @@ export function teamHandedIn(kind: TeamRun['kind']): void {
   if (!run || run.kind !== kind || run.status !== 'running') return;
   step('Team lead', kind === 'prepare' ? 'Handed in: script, cue card and price floors.' : 'Handed in: sales sheet, supplier message, follow-ups and next FAQ.');
   finish('done');
-  setTimeout(() => g.__streamsenseRun?.kill(), 20_000);
+  const working = g.__streamsenseRun;
+  setTimeout(() => working?.kill(), 20_000);
 }
 
 export function stopTeam(): void {

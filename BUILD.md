@@ -34,7 +34,7 @@ Without keys it still starts: comments are handled by keyword rules and there is
 | Live agents (Triage, Order & Stock, Support, Coach, Host Monitor) | Real tool-calling agents on a real model |
 | Price Guard, Grounding Gate, stock, floor prices, profit | Plain code, deliberately not a model |
 | Seller video and voice, buyers on their phones | Real |
-| Before/after teams (Finance, Sales, Compliance; Reconciliation, Restock, Follow-up, Planner) | Real agent runs, started from a button on the seller's laptop |
+| Before/after teams (Finance, Sales, Compliance; Reconciliation, Restock, Follow-up, Planner) | Real agent runs, started from a button: in WorkBuddy on the seller's laptop, on the app's own model anywhere else |
 | Payment | Simulated — checkout marks an order paid, no money moves |
 | The marketplace | Simulated — our own live room standing in for a marketplace live |
 | Sample comments, keyword rules | Fallback only, for rehearsal or when the model limit is hit |
@@ -89,7 +89,9 @@ Cost sheet columns — required: `sku, name, unit_cost, list_price, stock`. Opti
 
 **With the agent teams:** the *Prepare my live* and *Settle everything* buttons start an agent engine on the seller's laptop (`src/lib/workbuddy.ts`) with a goal, named roles and a connection back to `/api/mcp`. Progress shows on the page. Set it up once with `npm run workbuddy:login`. Floors and sales figures still come from code; the roles read and explain them.
 
-**From WorkBuddy's own window:** add `/api/mcp` as a custom connection (`{ "mcpServers": { "streamsense": { "url": "http://localhost:3000/api/mcp" } } }`) and paste the prompt shown under each button.
+**Without that engine** (a hosted copy), the same buttons run the same roles in the app itself (`src/lib/teams.ts`): each role is a call to the `LLM_*` model, in the same order, with Compliance sending rejected lines back to Sales up to twice. It needs `LLM_API_KEY` and nothing else. `TEAM_RUNNER=model` forces this on a laptop that has the engine.
+
+**From WorkBuddy's own window:** add `/api/mcp` as a custom connection (`{ "mcpServers": { "streamsense": { "url": "http://localhost:3000/api/mcp" } } }`) and paste the prompt shown under each button. This works against a hosted copy too: use its address, and add `"headers": { "Authorization": "Bearer <MCP_TOKEN>" }` with the token from the host's environment settings. The fold under each button shows the connection for the address the page is open at.
 
 | Tool | Effect |
 |---|---|
@@ -113,18 +115,18 @@ The app needs **one always-on Node instance** that allows long-lived connections
 
 Notes for a hosted copy:
 - The free plan sleeps after about 15 minutes without visitors and takes a minute to wake; waking starts a fresh room.
-- The agent-team buttons need the engine on the same machine, so they are for the laptop. *Load products and floor prices only* works anywhere.
+- The agent-team buttons work on the host: with no engine there, the roles run on the `LLM_*` model (section 5).
 - Camera and microphone need HTTPS, which the host provides.
 
-**For a pitch**, running on the laptop with a tunnel to a public HTTPS address keeps everything working, including the team buttons.
+**For a pitch**, running on the laptop with a tunnel to a public HTTPS address runs the team buttons in WorkBuddy.
 
 ## 7. What is verified
 
-- 68 unit tests; production build clean.
+- 79 unit tests; production build clean.
 - Thirty unscripted comments through the real model: 28 as expected, replies in about 1.6 s.
 - The test-kit shop (coffee, honey, cookies, tea) through the real agents: orders, two products in one comment, cancel, lowball offer, bulk order, unknown product, health claim, missing facts, spoken below-floor price, fact learned from speech.
 - Video from seller to a late-joining buyer, in a headless browser with a fake camera.
-- Both agent-team buttons with real runs (Prepare about 8 minutes, Wrap-up about 2).
+- Both agent-team buttons with real runs in WorkBuddy (Prepare about 8 minutes, Wrap-up about 2), and on the app's own model on a laptop (each under a minute).
 
 **Not verified:** sound and speech with a real voice in a noisy room; phones on another network; the hosted deployment.
 
